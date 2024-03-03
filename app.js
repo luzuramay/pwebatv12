@@ -149,17 +149,10 @@ app.post('/usuarios', (req, res) => {
     }
 
     // Se todas as validações passarem, adiciona o usuário à lista de usuários
-<<<<<<< HEAD
-    const novoUsuario = {
-        id: users.length + 1,
-        nome,
-        cpf,
-=======
     const newUser = {
         id: users.length + 1,
         nome,
         email: `${nome.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
->>>>>>> 99a9e0c6d7148cac63d216861d296a1e4a2499bd
         dataNascimento,
         sexo,
         estadoCivil,
@@ -170,51 +163,9 @@ app.post('/usuarios', (req, res) => {
         numero,
         complemento
     };
-<<<<<<< HEAD
-    users.push(novoUsuario);
-
-    res.redirect('/usuarios'); // Redireciona para a página de listagem de usuários após o cadastro
-});
-
-// Rota para renderizar a página de edição de usuário
-app.get('/usuarios/:id/editar', (req, res) => {
-    const userId = parseInt(req.params.id); // Convertendo o ID para inteiro
-    const usuario = users.find(user => user.id === userId); // Procurando o usuário pelo ID
-    if (!usuario) {
-        return res.status(404).send('Usuário não encontrado');
-    }
-    res.render('editar', { usuario }); // Renderiza a página de edição com os dados do usuário
-});
-
-// Rota para processar a edição de usuário
-app.put('/usuarios/:id', (req, res) => {
-    const userId = parseInt(req.params.id); // Convertendo o ID para inteiro
-    const { nome, cpf, dataNascimento, sexo, estadoCivil, rendaMensal, logradouro, estado, cidade, numero, complemento } = req.body;
-    const usuarioIndex = users.findIndex(user => user.id === userId); // Encontrando o índice do usuário na lista
-    if (usuarioIndex === -1) {
-        return res.status(404).send('Usuário não encontrado');
-    }
-    // Atualizando os dados do usuário
-    users[usuarioIndex] = {
-        id: userId,
-        nome,
-        cpf,
-        dataNascimento,
-        sexo,
-        estadoCivil,
-        rendaMensal,
-        logradouro,
-        estado,
-        cidade,
-        numero,
-        complemento
-    };
-    res.redirect('/usuarios'); // Redireciona para a página de listagem de usuários após a edição
-=======
     users.push(newUser);
 
     res.redirect('/usuarios'); // Redireciona para a página de listagem de usuários após o cadastro
->>>>>>> 99a9e0c6d7148cac63d216861d296a1e4a2499bd
 });
 
 app.listen(port, () => {
