@@ -1,0 +1,56 @@
+<!-- users.ejs -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuários</title>
+    <!-- Adicione o link para o Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Lista de Usuários</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Data de Nascimento</th>
+                    <th>Sexo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.nome %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.dataNascimento %></td>
+                        <td><%= user.sexo %></td>
+                        <td>
+                            <form action="/usuarios/<%= user.id %>?_method=DELETE" method="POST">
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-success">Atualizar</button>
+                            </div>
+                            </form>
+                            <!-- Botão de atualizar -->
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger mr-2">Excluir</button>
+                           
+                        </td>
+                    </div>
+                    </div>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <a href="/cadastro" class="btn btn-primary">Cadastrar novo usuário</a>
+    </div>
+</body>
+</html>

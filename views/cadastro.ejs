@@ -1,0 +1,291 @@
+<!-- XD -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+    <!-- Adicionar link para o Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilo para campos obrigatórios vazios após o foco */
+        .form-control:invalid:focus {
+            border-color: red;
+        }
+        /* Estilo para campos de seleção obrigatórios vazios após o foco */
+        select:invalid:focus {
+            border-color: red;
+        }
+        /* Estilo para os títulos */
+        .titulo-section {
+            background-color: #007bff; /* Cor de fundo azul */
+            color: white; /* Cor do texto branco */
+            padding: 10px; /* Espaçamento interno */
+            margin-top: 20px; /* Espaçamento superior */
+            border-radius: 5px; /* Borda arredondada */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Cadastro de Usuário</h1>
+        <% if (mensagemErro) { %>
+            <p style="color: red;"><%= mensagemErro %></p>
+        <% } %>
+    
+        <form id="formulario" action="/usuarios" method="POST">
+            <div class="titulo-section"> <h1>Dados Pessoais</h1></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" class="form-control"  placeholder="Digite seu Nome" value="<%= dadosFormulario.nome || '' %>">
+                
+                    <span class="mensagem-campo-obrigatorio" id="mensagemNome"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" class="form-control"  placeholder="Formato: XXX.XXX.XXX-XX" value="<%= dadosFormulario.cpf || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemCpf"></span>
+                    <!-- Adicione a mensagem de CPF inválido aqui -->
+                    <span class="mensagem-cpf-invalido" id="mensagemCpfInvalido"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento" class="form-control"  value="<%= dadosFormulario.dataNascimento || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemDataNascimento"></span>
+                </div>
+                <div class="col-md-6">
+                    <label>Sexo:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="masculino" name="sexo" value="Masculino"  <%= dadosFormulario.sexo === 'Masculino' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="masculino">Masculino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="feminino" name="sexo" value="Feminino"  <%= dadosFormulario.sexo === 'Feminino' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="feminino">Feminino</label>
+                    </div>
+                    <span class="mensagem-campo-obrigatorio" id="mensagemSexo"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="estadoCivil">Estado Civil:</label>
+                    <select id="estadoCivil" name="estadoCivil" class="form-control" >
+                        <option value="">Selecione o estado civil</option>
+                        <option value="Solteiro(a)" <%= dadosFormulario.estadoCivil === 'Solteiro(a)' ? 'selected' : '' %>>Solteiro(a)</option>
+                        <option value="Casado(a)" <%= dadosFormulario.estadoCivil === 'Casado(a)' ? 'selected' : '' %>>Casado(a)</option>
+                        <option value="Separado(a)" <%= dadosFormulario.estadoCivil === 'Separado(a)' ? 'selected' : '' %>>Separado(a)</option>
+                        <option value="Divorciado(a)" <%= dadosFormulario.estadoCivil === 'Divorciado(a)' ? 'selected' : '' %>>Divorciado(a)</option>
+                        <option value="Viúvo(a)" <%= dadosFormulario.estadoCivil === 'Viúvo(a)' ? 'selected' : '' %>>Viúvo(a)</option>
+                    </select>
+                    <span class="mensagem-campo-obrigatorio" id="mensagemEstadoCivil"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="rendaMensal">Renda Mensal:</label>
+                    <input type="number" id="rendaMensal" name="rendaMensal" class="form-control" placeholder="0,00" value="<%= dadosFormulario.rendaMensal || '' %>" >
+                    <span class="mensagem-campo-obrigatorio" id="mensagemRendaMensal"></span>
+                </div>
+            </div>
+            <br>
+            <!-- Endereço -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titulo-section"> <h1>Endereço</h1>  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="logradouro">Logradouro:</label>
+                    <input type="text" id="logradouro" name="logradouro" class="form-control"  placeholder="Av. Paulista" value="<%= dadosFormulario.logradouro || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemLogradouro"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="numero">Número:</label>
+                    <input type="number" id="numero" name="numero" class="form-control"  placeholder="N°" value="<%= dadosFormulario.numero || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemNumero"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="complemento">Complemento:</label>
+                    <input type="text" id="complemento" name="complemento" class="form-control"  placeholder="Casa,Apto,loja" value="<%= dadosFormulario.complemento || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemComplemento"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="cidade">Cidade:</label>
+                    <input type="text" id="cidade" name="cidade" class="form-control"  placeholder="Sao Paulo" value="<%= dadosFormulario.cidade || '' %>">
+                    <span class="mensagem-campo-obrigatorio" id="mensagemCidade"></span>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="estado" class="form-control" >
+                        <option value="">Selecione o estado</option>
+                        <option value="AC" <%= dadosFormulario.estado === 'AC' ? 'selected' : '' %>>Acre</option>
+                        <option value="AL" <%= dadosFormulario.estado === 'AL' ? 'selected' : '' %>>Alagoas</option>
+                        <option value="AP" <%= dadosFormulario.estado === 'AP' ? 'selected' : '' %>>Amapá</option>
+                        <option value="AM" <%= dadosFormulario.estado === 'AM' ? 'selected' : '' %>>Amazonas</option>
+                        <option value="BA" <%= dadosFormulario.estado === 'BA' ? 'selected' : '' %>>Bahia</option>
+                        <option value="CE" <%= dadosFormulario.estado === 'CE' ? 'selected' : '' %>>Ceará</option>
+                        <option value="DF" <%= dadosFormulario.estado === 'DF' ? 'selected' : '' %>>Distrito Federal</option>
+                        <option value="ES" <%= dadosFormulario.estado === 'ES' ? 'selected' : '' %>>Espírito Santo</option>
+                        <option value="GO" <%= dadosFormulario.estado === 'GO' ? 'selected' : '' %>>Goiás</option>
+                        <option value="MA" <%= dadosFormulario.estado === 'MA' ? 'selected' : '' %>>Maranhão</option>
+                        <option value="MT" <%= dadosFormulario.estado === 'MT' ? 'selected' : '' %>>Mato Grosso</option>
+                        <option value="MS" <%= dadosFormulario.estado === 'MS' ? 'selected' : '' %>>Mato Grosso do Sul</option>
+                        <option value="MG" <%= dadosFormulario.estado === 'MG' ? 'selected' : '' %>>Minas Gerais</option>
+                        <option value="PA" <%= dadosFormulario.estado === 'PA' ? 'selected' : '' %>>Pará</option>
+                        <option value="PB" <%= dadosFormulario.estado === 'PB' ? 'selected' : '' %>>Paraíba</option>
+                        <option value="PR" <%= dadosFormulario.estado === 'PR' ? 'selected' : '' %>>Paraná</option>
+                        <option value="PE" <%= dadosFormulario.estado === 'PE' ? 'selected' : '' %>>Pernambuco</option>
+                        <option value="PI" <%= dadosFormulario.estado === 'PI' ? 'selected' : '' %>>Piauí</option>
+                        <option value="RJ" <%= dadosFormulario.estado === 'RJ' ? 'selected' : '' %>>Rio de Janeiro</option>
+                        <option value="RN" <%= dadosFormulario.estado === 'RN' ? 'selected' : '' %>>Rio Grande do Norte</option>
+                        <option value="RS" <%= dadosFormulario.estado === 'RS' ? 'selected' : '' %>>Rio Grande do Sul</option>
+                        <option value="RO" <%= dadosFormulario.estado === 'RO' ? 'selected' : '' %>>Rondônia</option>
+                        <option value="RR" <%= dadosFormulario.estado === 'RR' ? 'selected' : '' %>>Roraima</option>
+                        <option value="SC" <%= dadosFormulario.estado === 'SC' ? 'selected' : '' %>>Santa Catarina</option>
+                        <option value="SP" <%= dadosFormulario.estado === 'SP' ? 'selected' : '' %>>São Paulo</option>
+                        <option value="SE" <%= dadosFormulario.estado === 'SE' ? 'selected' : '' %>>Sergipe</option>
+                        <option value="TO" <%= dadosFormulario.estado === 'TO' ? 'selected' : '' %>>Tocantins</option>
+                    </select>
+                    
+                </div>
+            </div>
+            <br>
+            <!-- Botão de Submit -->
+            <button id="btnCadastrar" type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+
+    <!-- Adicionar scripts do Bootstrap e do jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script>
+       
+            // Adiciona evento blur para mostrar a mensagem de campo obrigatório se o campo estiver vazio
+            document.querySelectorAll('input, select').forEach(input => {
+                input.addEventListener('blur', function() {
+                    const mensagemId = `mensagem${this.id.charAt(0).toUpperCase() + this.id.slice(1)}`;
+                    if (this.value.trim() === '') {
+                        document.getElementById(mensagemId).innerText = 'Campo obrigatório';
+                        document.getElementById(mensagemId).style.color = 'red'; // Define a cor do texto como vermelha
+                        this.style.borderColor = 'red'; // Define a cor da borda do campo como vermelha
+                    } else {
+                        document.getElementById(mensagemId).innerText = '';
+                        document.getElementById(mensagemId).style.color = ''; // Remove qualquer cor de texto definida anteriormente
+                        this.style.borderColor = ''; // Remove qualquer cor de borda definida anteriormente
+                    }
+                });
+            });
+        
+            // Adicione este código para impedir que o formulário seja enviado se houver campos vazios
+            document.getElementById('formulario').addEventListener('submit', function(event) {
+                let camposVazios = false;
+                document.querySelectorAll('input, select').forEach(input => {
+                    if (input.value.trim() === '') {
+                        camposVazios = true;
+                        const mensagemId = `mensagem${input.id.charAt(0).toUpperCase() + input.id.slice(1)}`;
+                        document.getElementById(mensagemId).innerText = 'Campo obrigatório';
+                        document.getElementById(mensagemId).style.color = 'red'; // Define a cor do texto como vermelha
+                        input.style.borderColor = 'red'; // Define a cor da borda do campo como vermelha
+                    }
+                });
+                if (camposVazios) {
+                    event.preventDefault(); // Impede o envio do formulário se houver campos vazios
+                }
+            });
+      
+        
+
+        // Adiciona formatação para a renda mensal (apenas números e até duas casas decimais)
+        document.getElementById('rendaMensal').addEventListener('input', function(event) {
+            // Obtém o valor inserido pelo usuário
+            let value = event.target.value;
+
+            // Verifica se o campo está vazio
+            if (value.trim() === '') {
+                event.target.setCustomValidity('Campo obrigatório'); // Define uma mensagem de validação customizada
+                return; // Se estiver vazio, não faz nada
+            }
+
+            // Remove caracteres não numéricos, exceto ponto decimal
+            value = value.replace(/[^\d.]/g, '');
+
+            // Formata para manter apenas duas casas decimais
+            value = parseFloat(value).toFixed(2);
+
+            // Atualiza o valor do campo
+            event.target.value = value;
+
+            // Limpa a mensagem de validação customizada se o campo estiver preenchido
+            event.target.setCustomValidity('');
+        });
+
+    
+    document.addEventListener("DOMContentLoaded", function() {
+            // Aplicar a formatação do CPF quando o DOM estiver carregado
+            const inputCPF = document.getElementById("cpf");
+            inputCPF.addEventListener("input", function(event) {
+                // Obtém o valor do campo e remove qualquer caractere que não seja número
+                let cpf = event.target.value.replace(/\D/g, '');
+                // Adiciona formatação de CPF se o valor não estiver vazio
+                if (cpf) {
+                    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o primeiro ponto
+                    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o segundo ponto
+                    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o traço
+                    event.target.value = cpf;
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Adicionar validação de CPF quando o DOM estiver carregado
+            const form = document.getElementById("formulario");
+            form.addEventListener("submit", function(event) {
+                const inputCPF = document.getElementById("cpf");
+                const cpf = inputCPF.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+                if (!validarCPF(cpf)) {
+                    event.preventDefault(); // Impede o envio do formulário se o CPF for inválido
+                    document.getElementById("mensagemCpfInvalido").innerText = "CPF inválido";
+                    document.getElementById("mensagemCpfInvalido").style.color = "red";
+                }
+            });
+        });
+
+        // Função para validar CPF
+        function validarCPF(cpf) {
+            cpf = cpf.toString().replace(/[^0-9]/g, '');
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            let soma = 0;
+            let resto;
+            for (let i = 1; i <= 9; i++)
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+            soma = 0;
+            for (let i = 1; i <= 10; i++)
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(10, 11))) return false;
+            return true;
+        }
+
+    </script>
+
+</body>
+</html>
+
