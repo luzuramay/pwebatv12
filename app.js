@@ -132,7 +132,10 @@ app.post('/usuarios', (req, res) => {
     if (!rendaMensal || rendaMensal.trim() === '' || !validarRendaMensal(rendaMensal)) {
         return res.render('cadastro', { mensagemErro: 'Renda mensal inválida. Insira apenas valores numéricos com até duas casas decimais.', dadosFormulario: req.body });
     }
-
+    const sexosValidos = ['Feminino', 'Masculino'];
+    if (!sexo || sexo.trim() === '' || !sexosValidos.includes(sexo)) {
+        return res.render('cadastro', { mensagemErro: 'Sexo inválido. Escolha entre Feminino ou Masculino.', dadosFormulario: req.body });
+    }
     // Validação do logradouro
     if (!logradouro || logradouro.trim() === '' || logradouro.length < 3) {
         return res.render('cadastro', { mensagemErro: 'Logradouro inválido. O logradouro deve conter mais de 3 caracteres.', dadosFormulario: req.body });
@@ -165,7 +168,10 @@ app.post('/usuarios', (req, res) => {
     };
     users.push(newUser);
 
-    res.redirect('/usuarios'); // Redireciona para a página de listagem de usuários após o cadastro
+    res.redirect('/completed'); // Redireciona para a página de listagem de usuários após o cadastro
+});
+app.get('/completed', (req, res) => {
+    res.render('completed'); // Renderiza a página "completed"
 });
 
 app.listen(port, () => {
