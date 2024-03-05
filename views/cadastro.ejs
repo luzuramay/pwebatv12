@@ -1,4 +1,4 @@
-<!-- XD -->
+<!-- cadastro.ejs -->
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -87,16 +87,16 @@
                     <span class="mensagem-campo-obrigatorio" id="mensagemEstadoCivil"></span>
                 </div>
                 <div class="col-md-6">
-                    <label for="rendaMensal">Renda Mensal:</label>
-                    <input type="number" id="rendaMensal" name="rendaMensal" class="form-control" placeholder="0,00" value="<%= dadosFormulario.rendaMensal || '' %>" >
-                    <span class="mensagem-campo-obrigatorio" id="mensagemRendaMensal"></span>
+                        <label for="rendaMensal">Renda Mensal:</label>
+                        <input type="text" id="rendaMensal" name="rendaMensal" class="form-control" placeholder="0.00" value="<%= dadosFormulario.rendaMensal || '' %>">
+                        <span class="mensagem-campo-obrigatorio" id="mensagemRendaMensal"></span>
                 </div>
             </div>
             <br>
             <!-- Endereço -->
             <div class="row">
                 <div class="col-md-12">
-                    <div class="titulo-section"> <h1>Endereço</h1>  </div>
+                    <div class="titulo-section"> <h1>Endereço</h1> </div>
                 </div>
             </div>
             <div class="row">
@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="numero">Número:</label>
-                    <input type="number" id="numero" name="numero" class="form-control"  placeholder="N°" value="<%= dadosFormulario.numero || '' %>">
+                    <input type="text" id="numero" name="numero" class="form-control"  placeholder="N°" value="<%= dadosFormulario.numero || '' %>">
                     <span class="mensagem-campo-obrigatorio" id="mensagemNumero"></span>
                 </div>
             </div>
@@ -171,9 +171,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
     <script>
-       
             // Adiciona evento blur para mostrar a mensagem de campo obrigatório se o campo estiver vazio
             document.querySelectorAll('input, select').forEach(input => {
                 input.addEventListener('blur', function() {
@@ -189,7 +187,6 @@
                     }
                 });
             });
-        
             // Adicione este código para impedir que o formulário seja enviado se houver campos vazios
             document.getElementById('formulario').addEventListener('submit', function(event) {
                 let camposVazios = false;
@@ -205,11 +202,7 @@
                 if (camposVazios) {
                     event.preventDefault(); // Impede o envio do formulário se houver campos vazios
                 }
-            });
-      
-        
-
-        // Adiciona formatação para a renda mensal (apenas números e até duas casas decimais)
+            });  // Adiciona formatação para a renda mensal (apenas números e até duas casas decimais)
         document.getElementById('rendaMensal').addEventListener('input', function(event) {
             // Obtém o valor inserido pelo usuário
             let value = event.target.value;
@@ -220,8 +213,6 @@
                 return; // Se estiver vazio, não faz nada
             }
 
-            // Remove caracteres não numéricos, exceto ponto decimal
-            value = value.replace(/[^\d.]/g, '');
 
             // Formata para manter apenas duas casas decimais
             value = parseFloat(value).toFixed(2);
@@ -231,9 +222,8 @@
 
             // Limpa a mensagem de validação customizada se o campo estiver preenchido
             event.target.setCustomValidity('');
-        });
-
-    
+        });          
+            
     document.addEventListener("DOMContentLoaded", function() {
             // Aplicar a formatação do CPF quando o DOM estiver carregado
             const inputCPF = document.getElementById("cpf");
@@ -249,7 +239,6 @@
                 }
             });
         });
-
         document.addEventListener("DOMContentLoaded", function() {
             // Adicionar validação de CPF quando o DOM estiver carregado
             const form = document.getElementById("formulario");
@@ -263,7 +252,6 @@
                 }
             });
         });
-
         // Função para validar CPF
         function validarCPF(cpf) {
             cpf = cpf.toString().replace(/[^0-9]/g, '');
@@ -283,9 +271,7 @@
             if (resto !== parseInt(cpf.substring(10, 11))) return false;
             return true;
         }
-
     </script>
-
 </body>
 </html>
 
